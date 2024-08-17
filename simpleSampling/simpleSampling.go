@@ -16,9 +16,8 @@ var frequency = JanOS.Universe.Signals.NewSignalWithValue("Frequency", Symbols.O
 var theta = JanOS.Universe.Signals.NewSignal("Theta", Symbols.Theta)
 
 func main() {
-	JanOS.Universe.StdResolution = 60
 	theta.SineWave(amplitude, frequency)
-	integralObserver := Observers.NewIntegralObserver(OnTrigger)
+	integralObserver := Observers.NewIntegralObserver("Observer", OnTrigger)
 	theta.Sample(10, time.Duration(time.Second), integralObserver)
 
 	for {
