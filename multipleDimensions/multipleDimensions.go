@@ -99,23 +99,23 @@ func (w *window) Update() error {
 	// In the logic loop, we just check for key input
 	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
 		// On 'A' we slow the oscillators
-		omega.SetValue(now, omega.GetValue(now)*0.9)
-		mu.SetValue(now, mu.GetValue(now)*0.9)
-		nu.SetValue(now, nu.GetValue(now)*0.9)
-		xi.SetValue(now, xi.GetValue(now)*0.9)
-		omicron.SetValue(now, omicron.GetValue(now)*0.9)
-		lambda.SetValue(now, lambda.GetValue(now)*0.9)
-		rho.SetValue(now, rho.GetValue(now)*0.9)
+		omega.SetValue(now, omega.GetValue(now).Value*0.9)
+		mu.SetValue(now, mu.GetValue(now).Value*0.9)
+		nu.SetValue(now, nu.GetValue(now).Value*0.9)
+		xi.SetValue(now, xi.GetValue(now).Value*0.9)
+		omicron.SetValue(now, omicron.GetValue(now).Value*0.9)
+		lambda.SetValue(now, lambda.GetValue(now).Value*0.9)
+		rho.SetValue(now, rho.GetValue(now).Value*0.9)
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyS) {
 		// On 'S' we speed them up
-		omega.SetValue(now, omega.GetValue(now)*1.1)
-		mu.SetValue(now, mu.GetValue(now)*1.1)
-		nu.SetValue(now, nu.GetValue(now)*1.1)
-		xi.SetValue(now, xi.GetValue(now)*1.1)
-		omicron.SetValue(now, omicron.GetValue(now)*1.1)
-		lambda.SetValue(now, lambda.GetValue(now)*1.1)
-		rho.SetValue(now, rho.GetValue(now)*1.1)
+		omega.SetValue(now, omega.GetValue(now).Value*1.1)
+		mu.SetValue(now, mu.GetValue(now).Value*1.1)
+		nu.SetValue(now, nu.GetValue(now).Value*1.1)
+		xi.SetValue(now, xi.GetValue(now).Value*1.1)
+		omicron.SetValue(now, omicron.GetValue(now).Value*1.1)
+		lambda.SetValue(now, lambda.GetValue(now).Value*1.1)
+		rho.SetValue(now, rho.GetValue(now).Value*1.1)
 	}
 
 	return nil
