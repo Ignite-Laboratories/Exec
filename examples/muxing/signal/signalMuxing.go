@@ -48,9 +48,9 @@ func (w *window) Draw(screen *ebiten.Image) {
 	// This is used in lieu of a newline in graphics-land
 	offset := 15
 
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalA.Name, signalA.GetValue(now)), 0, 0*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalB.Name, signalB.GetValue(now)), 0, 1*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalC.Name, signalC.GetValue(now)), 0, 2*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalA.Name, signalA.GetInstantValue(now)), 0, 0*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalB.Name, signalB.GetInstantValue(now)), 0, 1*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalC.Name, signalC.GetInstantValue(now)), 0, 2*offset)
 }
 
 // Layout is required by ebiten

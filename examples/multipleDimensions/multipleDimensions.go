@@ -99,23 +99,23 @@ func (w *window) Update() error {
 	// In the logic loop, we just check for key input
 	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
 		// On 'A' we slow the oscillators
-		omega.SetValue(now, omega.GetValue(now).Value*0.9)
-		mu.SetValue(now, mu.GetValue(now).Value*0.9)
-		nu.SetValue(now, nu.GetValue(now).Value*0.9)
-		xi.SetValue(now, xi.GetValue(now).Value*0.9)
-		omicron.SetValue(now, omicron.GetValue(now).Value*0.9)
-		lambda.SetValue(now, lambda.GetValue(now).Value*0.9)
-		rho.SetValue(now, rho.GetValue(now).Value*0.9)
+		omega.SetValue(now, omega.GetInstantValue(now).Value*0.9)
+		mu.SetValue(now, mu.GetInstantValue(now).Value*0.9)
+		nu.SetValue(now, nu.GetInstantValue(now).Value*0.9)
+		xi.SetValue(now, xi.GetInstantValue(now).Value*0.9)
+		omicron.SetValue(now, omicron.GetInstantValue(now).Value*0.9)
+		lambda.SetValue(now, lambda.GetInstantValue(now).Value*0.9)
+		rho.SetValue(now, rho.GetInstantValue(now).Value*0.9)
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyS) {
 		// On 'S' we speed them up
-		omega.SetValue(now, omega.GetValue(now).Value*1.1)
-		mu.SetValue(now, mu.GetValue(now).Value*1.1)
-		nu.SetValue(now, nu.GetValue(now).Value*1.1)
-		xi.SetValue(now, xi.GetValue(now).Value*1.1)
-		omicron.SetValue(now, omicron.GetValue(now).Value*1.1)
-		lambda.SetValue(now, lambda.GetValue(now).Value*1.1)
-		rho.SetValue(now, rho.GetValue(now).Value*1.1)
+		omega.SetValue(now, omega.GetInstantValue(now).Value*1.1)
+		mu.SetValue(now, mu.GetInstantValue(now).Value*1.1)
+		nu.SetValue(now, nu.GetInstantValue(now).Value*1.1)
+		xi.SetValue(now, xi.GetInstantValue(now).Value*1.1)
+		omicron.SetValue(now, omicron.GetInstantValue(now).Value*1.1)
+		lambda.SetValue(now, lambda.GetInstantValue(now).Value*1.1)
+		rho.SetValue(now, rho.GetInstantValue(now).Value*1.1)
 	}
 
 	return nil
@@ -129,16 +129,16 @@ func (w *window) Draw(screen *ebiten.Image) {
 	// In the drawing loop, we just debug print out the signalal values
 
 	// For the point signals, we just always print their values
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", alpha.Name, alpha.GetValue(now)), 0, 0*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", omega.Name, omega.GetValue(now)), 0, 1*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", alpha.Name, alpha.GetInstantValue(now)), 0, 0*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", omega.Name, omega.GetInstantValue(now)), 0, 1*offset)
 	// Theta is an oscillator, but can be observed as a point
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", theta.Name, theta.GetValue(now)), 0, 2*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", mu.Name, mu.GetValue(now)), 0, 3*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", nu.Name, nu.GetValue(now)), 0, 4*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", xi.Name, xi.GetValue(now)), 0, 5*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", omicron.Name, omicron.GetValue(now)), 0, 6*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", lambda.Name, lambda.GetValue(now)), 0, 7*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", rho.Name, rho.GetValue(now)), 0, 8*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", theta.Name, theta.GetInstantValue(now)), 0, 2*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", mu.Name, mu.GetInstantValue(now)), 0, 3*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", nu.Name, nu.GetInstantValue(now)), 0, 4*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", xi.Name, xi.GetInstantValue(now)), 0, 5*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", omicron.Name, omicron.GetInstantValue(now)), 0, 6*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", lambda.Name, lambda.GetInstantValue(now)), 0, 7*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", rho.Name, rho.GetInstantValue(now)), 0, 8*offset)
 
 	// For the oscillating signals, we capture 10 indices from the past and output their values
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", theta.Name, theta.Timeline.SlicePastIndices(now, 10).Data), 0, 9*offset)
