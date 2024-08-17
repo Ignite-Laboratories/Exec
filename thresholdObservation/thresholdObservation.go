@@ -19,13 +19,13 @@ var theta = JanOS.Universe.Signals.NewSignal("Theta", Symbols.Theta)
 func main() {
 	JanOS.Universe.StdResolution = 60
 	theta.SineWave(amplitude, frequency)
-	theta.Sample(10, time.Duration(time.Second), Observers.NewThresholdObserver(0.5, OnTrigger))
+	theta.Sample(10, time.Duration(time.Second), Observers.NewThresholdObserver(0.4, OnTrigger))
 
 	for {
 		time.Sleep(5 * time.Second)
 	}
 }
 
-func OnTrigger(signal *JanOS.Signal, instant time.Time) {
-	JanOS.Universe.Printf(signal, "Trigger!")
+func OnTrigger(signal *JanOS.Signal, instant time.Time, pointValue JanOS.PointValue) {
+	JanOS.Universe.Printf(signal, "Trigger value %v", pointValue)
 }
