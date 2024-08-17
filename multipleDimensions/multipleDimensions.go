@@ -6,20 +6,20 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/ignite-laboratories/JanOS"
-	"github.com/ignite-laboratories/JanOS/Symbol"
+	"github.com/ignite-laboratories/JanOS/Symbols"
 	"log"
 	"time"
 )
 
 // ---------------------------------------------------------------------------------------------------------
-// This is an example of leveraging dimensions by themselves.  JanOS does not require setting up the universe
-// unless you want to utilize its features.  In this example, we create 15 dimensions - seven oscillators,
-// seven frequencies, and a singular amplitude.  The dimensions can be adjusted at runtime using 'A' and 'S'
+// This is an example of leveraging signals by themselves.  JanOS does not require setting up the universe
+// unless you want to utilize its features.  In this example, we create 15 signals - seven oscillators,
+// seven frequencies, and a singular amplitude.  The signals can be adjusted at runtime using 'A' and 'S'
 // on your keyboard, which multiplies all the frequencies by 0.9 or 1.1, respectively.  The oscillating
-// dimensions are then queried whenever we perform a draw call to grab the currently relevant timeline
+// signals are then queried whenever we perform a draw call to grab the currently relevant timeline
 // information, relative to time.Now, and output their incoming data points.
 
-// Each dimension has its own loop to maintain itself while remaining thread-safe for querying.
+// Each signal has its own loop to maintain itself while remaining thread-safe for querying.
 
 // The output window utilized in this example is using ebiten, but you can bring your own visualization engine.
 // ---------------------------------------------------------------------------------------------------------
@@ -27,63 +27,62 @@ import (
 // The reference that ebiten drives
 type window int
 
-// Our dimensions
-var alpha *JanOS.Dimension
-var omega *JanOS.Dimension
-var theta *JanOS.Dimension
-var sigma *JanOS.Dimension
-var tau *JanOS.Dimension
-var upsilon *JanOS.Dimension
-var phi *JanOS.Dimension
-var chi *JanOS.Dimension
-var psi *JanOS.Dimension
-var mu *JanOS.Dimension
-var nu *JanOS.Dimension
-var xi *JanOS.Dimension
-var omicron *JanOS.Dimension
-var lambda *JanOS.Dimension
-var rho *JanOS.Dimension
+// Amplitude signal
+var alpha = JanOS.Universe.Signals.NewSignalWithValue("Alpha", Symbols.Alpha, 100)
+
+// Theta's frequency signal - Omega
+var omega = JanOS.Universe.Signals.NewSignalWithValue("Omega", Symbols.Omega, 1)
+
+// Oscillator Theta
+var theta = JanOS.Universe.Signals.NewSignal("Theta", Symbols.Theta)
+
+// Sigma's frequency signal - Mu
+var mu = JanOS.Universe.Signals.NewSignalWithValue("Mu", Symbols.Mu, 1.1)
+
+// Oscillator Sigma
+var sigma = JanOS.Universe.Signals.NewSignal("Sigma", Symbols.Sigma)
+
+// Tau's frequency signal - Nu
+var nu = JanOS.Universe.Signals.NewSignalWithValue("Nu", Symbols.Nu, 1.2)
+
+// Oscillator Tau
+var tau = JanOS.Universe.Signals.NewSignal("Tau", Symbols.Tau)
+
+// Upsilon's frequency signal - Xi
+var xi = JanOS.Universe.Signals.NewSignalWithValue("Xi", Symbols.Xi, 1.3)
+
+// Oscillator Upsilon
+var upsilon = JanOS.Universe.Signals.NewSignal("Upsilon", Symbols.Upsilon)
+
+// Phi's frequency signal - Omicron
+var omicron = JanOS.Universe.Signals.NewSignalWithValue("Omicron", Symbols.Omicron, 1.4)
+
+// Oscillator Phi
+var phi = JanOS.Universe.Signals.NewSignal("Phi", Symbols.Phi)
+
+// Chi's frequency signal - Lambda
+var lambda = JanOS.Universe.Signals.NewSignalWithValue("Lambda", Symbols.Lambda, 1.5)
+
+// Oscillator Chi
+var chi = JanOS.Universe.Signals.NewSignal("Chi", Symbols.Chi)
+
+// Psi's frequency signal - Rho
+var rho = JanOS.Universe.Signals.NewSignalWithValue("Rho", Symbols.Rho, 1.6)
+
+// Oscillator Psi
+var psi = JanOS.Universe.Signals.NewSignal("Psi", Symbols.Psi)
 
 func main() {
-	// Set up the dimensions:
+	// Start the oscillating loops on the appropriate signals
+	theta.SineWave(alpha, omega)
+	sigma.SineWave(alpha, mu)
+	tau.SineWave(alpha, nu)
+	upsilon.SineWave(alpha, xi)
+	phi.SineWave(alpha, omicron)
+	chi.SineWave(alpha, lambda)
+	psi.SineWave(alpha, rho)
 
-	// Amplitude dimension
-	alpha = JanOS.Universe.Dimensions.NewDimension("Alpha", Symbol.Alpha, 100)
-
-	// Theta's frequency dimension - Omega
-	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 1)
-	// Oscillator Theta
-	theta = JanOS.Universe.Dimensions.NewOscillatingDimension("Theta", Symbol.Theta, alpha, omega)
-
-	// Sigma's frequency dimension - Mu
-	mu = JanOS.Universe.Dimensions.NewDimension("Mu", Symbol.Mu, 1.1)
-	// Oscillator Sigma
-	sigma = JanOS.Universe.Dimensions.NewOscillatingDimension("Sigma", Symbol.Sigma, alpha, mu)
-
-	// Tau's frequency dimension - Nu
-	nu = JanOS.Universe.Dimensions.NewDimension("Nu", Symbol.Nu, 1.2)
-	// Oscillator Tau
-	tau = JanOS.Universe.Dimensions.NewOscillatingDimension("Tau", Symbol.Tau, alpha, nu)
-
-	// Upsilon's frequency dimension - Xi
-	xi = JanOS.Universe.Dimensions.NewDimension("Xi", Symbol.Xi, 1.3)
-	// Oscillator Upsilon
-	upsilon = JanOS.Universe.Dimensions.NewOscillatingDimension("Upsilon", Symbol.Upsilon, alpha, xi)
-
-	// Phi's frequency dimension - Omicron
-	omicron = JanOS.Universe.Dimensions.NewDimension("Omicron", Symbol.Omicron, 1.4)
-	// Oscillator Phi
-	phi = JanOS.Universe.Dimensions.NewOscillatingDimension("Phi", Symbol.Phi, alpha, omicron)
-
-	// Chi's frequency dimension - Pi
-	lambda = JanOS.Universe.Dimensions.NewDimension("Lambda", Symbol.Lambda, 1.5)
-	// Oscillator Chi
-	chi = JanOS.Universe.Dimensions.NewOscillatingDimension("Chi", Symbol.Chi, alpha, lambda)
-
-	// Psi's frequency dimension - Rho
-	rho = JanOS.Universe.Dimensions.NewDimension("Rho", Symbol.Rho, 1.6)
-	// Oscillator Psi
-	psi = JanOS.Universe.Dimensions.NewOscillatingDimension("Psi", Symbol.Psi, alpha, rho)
+	theta.Timeline.SetResolution(500)
 
 	// Launch ebiten...
 	var w *window
@@ -122,19 +121,14 @@ func (w *window) Update() error {
 	return nil
 }
 
-// Layout is required by ebiten
-func (w *window) Layout(outsideWidth int, outsideHeight int) (int, int) {
-	return outsideWidth, outsideHeight
-}
-
 func (w *window) Draw(screen *ebiten.Image) {
 	now := time.Now()
 	// This is used in lieu of a newline in graphics-land
 	offset := 15
 
-	// In the drawing loop, we just debug print out the dimensional values
+	// In the drawing loop, we just debug print out the signalal values
 
-	// For the point dimensions, we just always print their values
+	// For the point signals, we just always print their values
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", alpha.Name, alpha.GetValue(now)), 0, 0*offset)
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", omega.Name, omega.GetValue(now)), 0, 1*offset)
 	// Theta is an oscillator, but can be observed as a point
@@ -146,12 +140,17 @@ func (w *window) Draw(screen *ebiten.Image) {
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", lambda.Name, lambda.GetValue(now)), 0, 7*offset)
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", rho.Name, rho.GetValue(now)), 0, 8*offset)
 
-	// For the oscillating dimensions, we capture 10 indices into the future and output their values
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", theta.Name, theta.Timeline.SliceFutureIndices(now, 10).Data), 0, 9*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", sigma.Name, sigma.Timeline.SliceFutureIndices(now, 10).Data), 0, 10*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", tau.Name, tau.Timeline.SliceFutureIndices(now, 10).Data), 0, 11*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", upsilon.Name, upsilon.Timeline.SliceFutureIndices(now, 10).Data), 0, 12*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", phi.Name, phi.Timeline.SliceFutureIndices(now, 10).Data), 0, 13*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", chi.Name, chi.Timeline.SliceFutureIndices(now, 10).Data), 0, 14*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", psi.Name, psi.Timeline.SliceFutureIndices(now, 10).Data), 0, 15*offset)
+	// For the oscillating signals, we capture 10 indices from the past and output their values
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", theta.Name, theta.Timeline.SlicePastIndices(now, 10).Data), 0, 9*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", sigma.Name, sigma.Timeline.SlicePastIndices(now, 10).Data), 0, 10*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", tau.Name, tau.Timeline.SlicePastIndices(now, 10).Data), 0, 11*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", upsilon.Name, upsilon.Timeline.SlicePastIndices(now, 10).Data), 0, 12*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", phi.Name, phi.Timeline.SlicePastIndices(now, 10).Data), 0, 13*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", chi.Name, chi.Timeline.SlicePastIndices(now, 10).Data), 0, 14*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", psi.Name, psi.Timeline.SlicePastIndices(now, 10).Data), 0, 15*offset)
+}
+
+// Layout is required by ebiten
+func (w *window) Layout(outsideWidth int, outsideHeight int) (int, int) {
+	return outsideWidth, outsideHeight
 }
