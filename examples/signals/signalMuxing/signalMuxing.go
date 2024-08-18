@@ -18,17 +18,17 @@ import (
 // The reference that ebiten drives
 type window int
 
-var amplitude = JanOS.Universe.Signals.NewSignalWithValue("Amplitude", Symbols.Alpha, 100)
-var frequency = JanOS.Universe.Signals.NewSignalWithValue("Frequency", Symbols.Omega, 0.25)
-var signalA = JanOS.Universe.Signals.NewSignal("Signal A", Symbols.Theta)
-var signalB = JanOS.Universe.Signals.NewSignal("Signal B", Symbols.Psi)
+var amplitude = JanOS.Universe.Signals.NewSignalWithValue("Amplitude", Symbols.Alpha, 100, nil)
+var frequency = JanOS.Universe.Signals.NewSignalWithValue("Frequency", Symbols.Omega, 0.25, nil)
+var signalA = JanOS.Universe.Signals.NewSignal("Signal A", Symbols.Theta, nil)
+var signalB = JanOS.Universe.Signals.NewSignal("Signal B", Symbols.Psi, nil)
 var signalC *JanOS.Signal
 
 func main() {
 	signalA.SineWave(amplitude, frequency)
 	signalB.SineWave(amplitude, frequency)
 
-	signalC = signalA.Mux("Signal C", Symbols.Lambda, Formula.Additive, signalB)
+	signalC = JanOS.Universe.Signals.Mux("Signal C", Symbols.Lambda, Formula.Additive, signalA, signalB)
 
 	// Launch ebiten...
 	var w *window
@@ -48,9 +48,9 @@ func (w *window) Draw(screen *ebiten.Image) {
 	// This is used in lieu of a newline in graphics-land
 	offset := 15
 
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalA.Name, signalA.GetInstantValue(now)), 0, 0*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalB.Name, signalB.GetInstantValue(now)), 0, 1*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalC.Name, signalC.GetInstantValue(now)), 0, 2*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalA.Name, signalA.GetInstantValue(now).Point), 0, 0*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalB.Name, signalB.GetInstantValue(now).Point), 0, 1*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", signalC.Name, signalC.GetInstantValue(now).Point), 0, 2*offset)
 }
 
 // Layout is required by ebiten

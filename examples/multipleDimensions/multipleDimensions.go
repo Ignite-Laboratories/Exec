@@ -12,15 +12,12 @@ import (
 )
 
 // ---------------------------------------------------------------------------------------------------------
-// This is an example of leveraging signals by themselves.  JanOS does not require setting up the universe
-// unless you want to utilize its features.  In this example, we create 15 signals - seven oscillators,
-// seven frequencies, and a singular amplitude.  The signals can be adjusted at runtime using 'A' and 'S'
-// on your keyboard, which multiplies all the frequencies by 0.9 or 1.1, respectively.  The oscillating
-// signals are then queried whenever we perform a draw call to grab the currently relevant timeline
-// information, relative to time.Now, and output their incoming data points.
-
-// Each signal has its own loop to maintain itself while remaining thread-safe for querying.
-
+// This is an example of leveraging signals by themselves.  In this example, we create 15 signals - seven
+// oscillators, seven frequencies, and a singular amplitude.  The signals can be adjusted at runtime using
+// 'A' and 'S' on your keyboard, which multiplies all the frequencies by 0.9 or 1.1, respectively.  The
+// oscillating signals are then queried whenever we perform a draw call to grab the currently relevant
+// timeline information, relative to time.Now, and output their incoming data points.
+//
 // The output window utilized in this example is using ebiten, but you can bring your own visualization engine.
 // ---------------------------------------------------------------------------------------------------------
 
@@ -99,23 +96,23 @@ func (w *window) Update() error {
 	// In the logic loop, we just check for key input
 	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
 		// On 'A' we slow the oscillators
-		omega.SetValue(now, omega.GetInstantValue(now).Value*0.9)
-		mu.SetValue(now, mu.GetInstantValue(now).Value*0.9)
-		nu.SetValue(now, nu.GetInstantValue(now).Value*0.9)
-		xi.SetValue(now, xi.GetInstantValue(now).Value*0.9)
-		omicron.SetValue(now, omicron.GetInstantValue(now).Value*0.9)
-		lambda.SetValue(now, lambda.GetInstantValue(now).Value*0.9)
-		rho.SetValue(now, rho.GetInstantValue(now).Value*0.9)
+		omega.SetValue(now, omega.GetInstantValue(now).Point*0.9)
+		mu.SetValue(now, mu.GetInstantValue(now).Point*0.9)
+		nu.SetValue(now, nu.GetInstantValue(now).Point*0.9)
+		xi.SetValue(now, xi.GetInstantValue(now).Point*0.9)
+		omicron.SetValue(now, omicron.GetInstantValue(now).Point*0.9)
+		lambda.SetValue(now, lambda.GetInstantValue(now).Point*0.9)
+		rho.SetValue(now, rho.GetInstantValue(now).Point*0.9)
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyS) {
 		// On 'S' we speed them up
-		omega.SetValue(now, omega.GetInstantValue(now).Value*1.1)
-		mu.SetValue(now, mu.GetInstantValue(now).Value*1.1)
-		nu.SetValue(now, nu.GetInstantValue(now).Value*1.1)
-		xi.SetValue(now, xi.GetInstantValue(now).Value*1.1)
-		omicron.SetValue(now, omicron.GetInstantValue(now).Value*1.1)
-		lambda.SetValue(now, lambda.GetInstantValue(now).Value*1.1)
-		rho.SetValue(now, rho.GetInstantValue(now).Value*1.1)
+		omega.SetValue(now, omega.GetInstantValue(now).Point*1.1)
+		mu.SetValue(now, mu.GetInstantValue(now).Point*1.1)
+		nu.SetValue(now, nu.GetInstantValue(now).Point*1.1)
+		xi.SetValue(now, xi.GetInstantValue(now).Point*1.1)
+		omicron.SetValue(now, omicron.GetInstantValue(now).Point*1.1)
+		lambda.SetValue(now, lambda.GetInstantValue(now).Point*1.1)
+		rho.SetValue(now, rho.GetInstantValue(now).Point*1.1)
 	}
 
 	return nil
